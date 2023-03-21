@@ -2,6 +2,7 @@ package org.example.services;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Objects;
 
 public class MultiUserServer extends Thread {
     private final ServerSocket serverSocket;
@@ -15,12 +16,21 @@ public class MultiUserServer extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 new UserServerConnection(serverSocket.accept()).start();
             } catch (IOException e) {
+                if (Objects.equals(e.getMessage(), "Socket closed")) return;
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public void closeConnection() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

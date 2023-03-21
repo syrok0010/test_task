@@ -15,5 +15,6 @@ public class Server extends Mode {
         System.out.println("Вы вошли в серверный режим. Следующие команды доступны:");
         super.run();
         server.interrupt();
+        server.closeConnection();
     }
 }

@@ -8,7 +8,6 @@ import org.example.services.TopicService;
 public class DeleteCommand implements Command {
     @Override
     public String run(Message message) {
-        System.out.println("On server");
         DeleteDto dto = (DeleteDto) message;
         try {
             TopicService.Singleton.deleteVote(dto.topicName, dto.name, dto.username);

@@ -9,7 +9,12 @@ public class VoteCommand implements Command {
     @Override
     public String run(Message message) {
         var dto = (VoteDto) message;
-        if (dto.choice == null) return TopicService.Singleton.listAllVoteOptions(dto.topicName, dto.voteName);
-        return TopicService.Singleton.vote(dto.topicName, dto.voteName, dto.choice, dto.username);
+        try {
+            if (dto.choice == null) return TopicService.Singleton.listAllVoteOptions(dto.topicName, dto.voteName);
+            return TopicService.Singleton.vote(dto.topicName, dto.voteName, dto.choice, dto.username);
+        }
+        catch (RuntimeException e) {
+            return e.getMessage();
+        }
     }
 }
